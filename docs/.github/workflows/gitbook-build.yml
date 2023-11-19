@@ -179,6 +179,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+    
+      - name: Commit and push changes
+        env:
+          GH_TOKEN: ${{ secrets.DEV_TOKEN}}
+        run: |
+          git status
+          git pull origin main
+          git status
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@releases/v4
