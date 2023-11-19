@@ -64,6 +64,7 @@ jobs:
         if [[ ${{ steps.cache-npm.outputs.cache-hit != 'true' }} ]]; then
           CHANGE_PACKAGE_VALUE=true
         fi
+        echo "CHANGE_PACKAGE_VALUE = ${CHANGE_PACKAGE_VALUE}"
         echo "CHANGE_PACKAGE=${CHANGE_PACKAGE_VALUE}" >> $GITHUB_ENV
 
     - if: ${{ env.CHANGE_PACKAGE == true }}
