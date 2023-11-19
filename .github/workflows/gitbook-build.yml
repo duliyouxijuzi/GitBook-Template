@@ -67,7 +67,7 @@ jobs:
         echo "CHANGE_PACKAGE_VALUE = ${CHANGE_PACKAGE_VALUE}"
         echo "CHANGE_PACKAGE=${CHANGE_PACKAGE_VALUE}" >> $GITHUB_ENV
 
-    - if: ${{ env.CHANGE_PACKAGE == true }}
+    - if: ${{ env.CHANGE_PACKAGE == 'true' }}
       name: Cleanup Cache
       env:
         GH_TOKEN: ${{ secrets.DEV_TOKEN}}
@@ -88,14 +88,14 @@ jobs:
           done
         echo "Done"
 
-    - if: ${{ env.CHANGE_PACKAGE == true }}
+    - if: ${{ env.CHANGE_PACKAGE == 'true' }}
       name: Update Cache
       uses: actions/cache@v3
       with:
         path: ./node_modules
         key: Linux-node_modules-${{ hashFiles('./package-lock.json') }}
     
-    - if: ${{ env.CHANGE_PACKAGE == true }}    
+    - if: ${{ env.CHANGE_PACKAGE == 'true' }}    
       name: Configure Git
       run: |
         if [ -z "$(git config --get user.email)" ]; then
@@ -107,7 +107,7 @@ jobs:
           git config --global user.name "GitHub Actions"
         fi
 
-    - if: ${{ env.CHANGE_PACKAGE == true }}
+    - if: ${{ env.CHANGE_PACKAGE == 'true' }}
       name: Commit and push changes
       env:
         GH_TOKEN: ${{ secrets.DEV_TOKEN}}
