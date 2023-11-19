@@ -26,6 +26,7 @@ jobs:
 
     - name: Cache Node.js modules
       uses: actions/cache@v3
+      id: cache-npm
       with:
         path: ./node_modules
         key: Linux-node_modules-${{ hashFiles('./package-lock.json') }}
@@ -35,7 +36,7 @@ jobs:
       with:
         node-version: '10.24.1'
 
-    - name: set COMMON_OLD_CACHE_KEY
+    - name: Set COMMON_OLD_CACHE_KEY
       run: echo "COMMON_OLD_CACHE_KEY=Linux-node_modules-${{ hashFiles('./package-lock.json') }}" >> $GITHUB_ENV
 
     - name: Install gitbook-cli
@@ -58,6 +59,9 @@ jobs:
         if [[ "${{env.COMMON_NEW_CACHE_KEY}}" == "${{env.COMMON_OLD_CACHE_KEY}}" ]]; then
           CHANGE_PACKAGE_VALUE=false
         else
+          CHANGE_PACKAGE_VALUE=true
+        fi
+        if [[ ${{ steps.cache-npm.outputs.cache-hit != 'true' }} ]]; then
           CHANGE_PACKAGE_VALUE=true
         fi
         echo "CHANGE_PACKAGE=${CHANGE_PACKAGE_VALUE}" >> $GITHUB_ENV
