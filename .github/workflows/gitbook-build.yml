@@ -142,9 +142,11 @@ jobs:
         if [ -f ./node_modules/.bin/gitbook ]; then
           echo "init gitbook"
           npx gitbook init
-          npx gitbook build ./ ./
+          if [! -f ./docs ]; then
+            mkdir docs
+          fi
+          npx gitbook build ./ ./docs
           ls -s
-          ls -a
         fi
 
     - name: Configure Git
